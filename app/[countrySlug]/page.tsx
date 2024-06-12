@@ -4,6 +4,7 @@ import { fetchCountryData } from "../http";
 import { FaArrowLeft } from "react-icons/fa6";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
+import { populationFormatter } from "../components/main-section/GridCountriesItem";
 
 type CountryInfoPageProps = {
   params: {
@@ -14,7 +15,9 @@ type CountryInfoPageProps = {
 export default async function CountryInfoPage({
   params,
 }: CountryInfoPageProps) {
-  const countryData = await fetchCountryData(params.countrySlug);
+  const countryData = await fetchCountryData(
+    params.countrySlug.toLocaleLowerCase()
+  );
   const digitStlye = "text-slate-600 dark:text-slate-400";
 
   return (
@@ -37,50 +40,80 @@ export default async function CountryInfoPage({
       <div className="flex flex-col gap-12 lg:flex-row items-start lg:items-center">
         <div className="relative w-full lg:w-1/2 aspect-video flex-shrink-0">
           <Image
-            src={countryData.flag}
-            alt={`${countryData.name}-flag`}
+            src={countryData[0].flag}
+            alt={`${countryData[0].name}-flag`}
             fill
             sizes="(max-width:768px) 300px, 350px"
             className="absolute object-contain"
           />
         </div>
 
-        <div className="flex flex-col gap-10 pl-6 items-start text-base whitespace-nowrap lg:w-1/2">
-          <div className="font-bold text-4xl">{countryData.name}</div>
+        <div className="flex flex-col gap-10 pl-6 items-start text-base lg:w-1/2">
+          <div className="font-bold text-4xl">{countryData[0].name}</div>
 
           <div className="flex flex-col gap-8 lg:flex-row">
             <div className="flex flex-col gap-1">
-              <div>Native Name</div>
+              <div>
+                Native Name:{" "}
+                {Object.values(countryData[0].nativeName).map((nativeName) => (
+                  <span key={nativeName.official} className={digitStlye}>
+                    {nativeName.official}
+                  </span>
+                ))}
+              </div>
               <div>
                 Population:{" "}
-                <span className={digitStlye}>{countryData.population}</span>
+                <span className={digitStlye}>
+                  {populationFormatter.format(countryData[0].population)}
+                </span>
               </div>
               <div>
-                Region: <span className={digitStlye}>{countryData.region}</span>
+                Region:{" "}
+                <span className={digitStlye}>{countryData[0].region}</span>
               </div>
-              <div>Sub Region:</div>
+              <div>
+                Sub Region:{" "}
+                <span className={digitStlye}>{countryData[0].subRegion}</span>
+              </div>
               <div>
                 Captial:{" "}
-                <span className={digitStlye}>{countryData.capital} </span>
+                <span className={digitStlye}>{countryData[0].capital} </span>
               </div>
             </div>
 
             <div className="flex flex-col gap-1">
-              <div>Top level Domain: </div>
+              <div>
+                Top level Domain:{" "}
+                <span className={digitStlye}>{countryData[0].tld} </span>
+              </div>
               <div>
                 Currencies:{" "}
-                <span className={digitStlye}>{countryData.currency}</span>
+                {Object.values(countryData[0].currencies).map((currency) => (
+                  <span key={currency.name} className={digitStlye}>
+                    {currency.name}
+                  </span>
+                ))}
               </div>
-              <div>Languages:</div>
+              <div>
+                Languages:{" "}
+                {Object.values(countryData[0].languages).map((language) => (
+                  <span
+                    key={`${countryData[0].name} - ${language}`}
+                    className={digitStlye}
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-4 items-start lg:flex-row">
             Border Countries:{" "}
-            <div className="flex gap-4">
-              {countryData.borders.map((border) => (
+            <div className="flex gap-4 flex-wrap">
+              {countryData[0].borders?.map((border) => (
                 <span
-                  key={`${countryData.name}-border-${border}`}
+                  key={`${countryData[0].name}-border-${border}`}
                   className={twMerge(buttonStyles(), "px-8 py-1")}
                 >
                   {border}

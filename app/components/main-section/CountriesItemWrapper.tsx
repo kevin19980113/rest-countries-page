@@ -4,14 +4,14 @@ import Search from "@/app/components/search/Search";
 import GridCountriesItem from "./GridCountriesItem";
 import FilterDropbox from "../filter/FilterDropbox";
 import { useFilterSearchContext } from "@/app/context/FilterSearchContext";
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 type CountryData = {
   name: string;
-  flag: string;
-  population: string;
   region: string;
+  flag: string;
   capital: string;
+  population: number;
 };
 
 type AllCountriesItemWrapperProps = {

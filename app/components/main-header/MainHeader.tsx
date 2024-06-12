@@ -1,3 +1,4 @@
+import Link from "next/link";
 import DarkMode from "./DarkMode";
 
 export default function MainHeader() {
@@ -7,7 +8,9 @@ export default function MainHeader() {
     shadow-md px-4 py-8 sm:text-base text-sm md:text-lg md:px-12 md:py-4 
     dark:bg-darkPrimary dark:text-white dark:shadow-2xl"
     >
-      <div className="font-bold">Where In The World?</div>
+      <Link href="/" className="font-bold px-4">
+        Where In The World?
+      </Link>
       <DarkMode />
     </header>
   );

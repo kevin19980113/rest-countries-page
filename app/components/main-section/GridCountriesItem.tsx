@@ -6,15 +6,15 @@ import Link from "next/link";
 type GridCountriesItemProps = {
   flag: string;
   name: string;
-  population: string;
+  population: number;
   region: string;
   capital: string;
 };
 
-// const populationFormatter = new Intl.NumberFormat("en-US", {
-//   style: "decimal",
-//   useGrouping: true,
-// });
+export const populationFormatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+  useGrouping: true,
+});
 
 export default function GridCountriesItem({
   flag,
@@ -23,12 +23,12 @@ export default function GridCountriesItem({
   region,
   capital,
 }: GridCountriesItemProps) {
-  const digitStlye = "text-slate-600";
+  const digitStlye = "text-slate-500";
   return (
     <Link
       className={twMerge(
         buttonStyles(),
-        "flex flex-col items-start gap-6 cursor-pointer hover:scale-[1.02] md:hover:scale-105 "
+        "flex flex-col items-start gap-6 cursor-pointer hover:scale-[1.02] md:hover:scale-105"
       )}
       href={`/${name}`}
     >
@@ -44,7 +44,10 @@ export default function GridCountriesItem({
       <div className="w-full flex flex-col gap-1 px-6 mb-6 text-sm md:text-base">
         <p className="font-extrabold mb-2 text-base md:text-lg">{name}</p>
         <p>
-          population: <span className={digitStlye}>{population}</span>
+          population:{" "}
+          <span className={digitStlye}>
+            {populationFormatter.format(population)}
+          </span>
         </p>
         <p>
           region: <span className={digitStlye}>{region}</span>
