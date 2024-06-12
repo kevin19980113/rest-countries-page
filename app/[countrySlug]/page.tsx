@@ -51,12 +51,15 @@ export default async function CountryInfoPage({
         <div className="flex flex-col gap-10 pl-6 items-start text-base lg:w-1/2">
           <div className="font-bold text-4xl">{countryData[0].name}</div>
 
-          <div className="flex flex-col gap-8 lg:flex-row">
-            <div className="flex flex-col gap-1">
+          <div className="w-full flex flex-col gap-8 lg:flex-row">
+            <div className="lg:w-1/2 flex flex-col gap-1">
               <div>
                 Native Name:{" "}
                 {Object.values(countryData[0].nativeName).map((nativeName) => (
-                  <span key={nativeName.official} className={digitStlye}>
+                  <span
+                    key={`${countryData[0].name}-${nativeName.official}`}
+                    className={digitStlye}
+                  >
                     {nativeName.official}
                   </span>
                 ))}
@@ -81,7 +84,7 @@ export default async function CountryInfoPage({
               </div>
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="lg:w-1/2 flex flex-col gap-1">
               <div>
                 Top level Domain:{" "}
                 <span className={digitStlye}>{countryData[0].tld} </span>
@@ -89,7 +92,10 @@ export default async function CountryInfoPage({
               <div>
                 Currencies:{" "}
                 {Object.values(countryData[0].currencies).map((currency) => (
-                  <span key={currency.name} className={digitStlye}>
+                  <span
+                    key={`${countryData[0].name}-${currency.name}`}
+                    className={digitStlye}
+                  >
                     {currency.name}
                   </span>
                 ))}
@@ -98,7 +104,7 @@ export default async function CountryInfoPage({
                 Languages:{" "}
                 {Object.values(countryData[0].languages).map((language) => (
                   <span
-                    key={`${countryData[0].name} - ${language}`}
+                    key={`${countryData[0].name}-${language}`}
                     className={digitStlye}
                   >
                     {`${language} `}
