@@ -21,7 +21,7 @@ export default async function CountryInfoPage({
   const digitStlye = "text-slate-600 dark:text-slate-400";
 
   return (
-    <section className="w-full min-h-screen relative flex flex-col gap-16 px-6 py-6 md:px-10 md:py-8">
+    <section className="w-full min-h-screen relative flex flex-col gap-16 px-6 py-6 md:px-16 md:py-8">
       <div className="absolute inset-0 dark:bg-darkPrimary-900 -z-10 bg-primary"></div>
 
       <div className="flex items-start">
@@ -101,7 +101,7 @@ export default async function CountryInfoPage({
                     key={`${countryData[0].name} - ${language}`}
                     className={digitStlye}
                   >
-                    {language}
+                    {`${language} `}
                   </span>
                 ))}
               </div>

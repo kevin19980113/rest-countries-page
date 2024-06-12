@@ -7,7 +7,7 @@ type NativeName = {
     official: string;
     common: string;
   };
-};
+} | null;
 
 type Languages = {
   [key: string]: string;
@@ -25,17 +25,17 @@ type CountryData = {
     official: string;
     nativeName: NativeName;
   };
-  region: string;
-  subregion: string;
-  languages: Languages;
+  region: string | null;
+  subregion: string | null;
+  languages: Languages | null;
   flags: {
     png: string;
     svg: string;
   };
-  capital: string;
-  population: number;
-  currencies: Currencies;
-  tld: string;
+  capital: string | null;
+  population: number | null;
+  currencies: Currencies | null;
+  tld: string | null;
   borders: string[] | null;
 };
 
@@ -43,10 +43,10 @@ function AllCountriesDataProcessor(data: CountryData[]) {
   return data.map((country) => {
     return {
       name: country.name.official,
-      region: country.region,
+      region: country.region ? country.region : "Unknown",
       flag: country.flags.svg,
-      capital: country.capital,
-      population: country.population,
+      capital: country.capital ? country.capital : "Unknown",
+      population: country.population ? country.population : 0,
     };
   });
 }
@@ -55,15 +55,24 @@ function countryDataProcessor(data: CountryData[]) {
   return data.map((country) => {
     return {
       name: country.name.official,
-      nativeName: country.name.nativeName,
-      region: country.region,
-      subRegion: country.subregion,
-      languages: country.languages,
+      nativeName: country.name.nativeName
+        ? country.name.nativeName
+        : { unknown: { official: "Unknown", common: "Unknown" } },
+      region: country.region ? country.region : "Unknown",
+      subRegion: country.subregion ? country.subregion : "Unknown",
+      languages: country.languages ? country.languages : { unknown: "Unknown" },
       flag: country.flags.svg,
-      capital: country.capital,
-      population: country.population,
-      currencies: country.currencies,
-      tld: country.tld,
+      capital: country.capital ? country.capital : "Unknown",
+      population: country.population ? country.population : 0,
+      currencies: country.currencies
+        ? country.currencies
+        : {
+            unkonwn: {
+              name: "Unknown",
+              symbol: "Unknown",
+            },
+          },
+      tld: country.tld ? country.tld : "Unknown",
       borders: country.borders ? country.borders : null,
     };
   });
@@ -90,9 +99,6 @@ export async function fetchCountryData(countryName: string) {
   );
 
   if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error("We can't find this country");
-    }
     throw new Error("Failed to fetch countries data.");
   }
 
