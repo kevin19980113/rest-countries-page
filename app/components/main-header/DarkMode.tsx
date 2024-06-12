@@ -12,7 +12,7 @@ export default function DarkMode() {
     <div
       className={twMerge(
         buttonStyles({ type: "ghost" }),
-        "flex gap-2 items-center px-4 py-2 whitespace-nowrap"
+        "flex gap-2 items-center px-4 py-2 whitespace-nowrap cursor-pointer "
       )}
       onClick={() => {
         theme === "dark" ? setTheme("light") : setTheme("dark");
